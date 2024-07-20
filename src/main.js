@@ -15,6 +15,7 @@ const params = {
   maxPage: 0,
 };
 
+loadBtn.style.display = 'none';
 loadBtn.addEventListener('click', handleLoadMore);
 searchForm.addEventListener('submit', handleSearch);
 
@@ -35,6 +36,7 @@ async function handleSearch(event) {
     return;
   }
   loading.style.display = 'flex';
+  loadBtn.style.display = 'flex';
   try {
     const data = await getPictures(params);
     if (data.hits.length === 0) {
@@ -72,6 +74,8 @@ async function handleLoadMore() {
   loadBtn.style.display = 'none';
   loading.style.display = 'flex';
   params.page += 1;
+  console.log(params.page);
+  console.log(params.maxPage);
   try {
     const data = await getPictures(params);
     renderGallery(data.hits);
@@ -90,7 +94,6 @@ async function handleLoadMore() {
       top: galleryItemHeight * 2,
       behavior: 'smooth',
     });
-    loadBtn.style.display = 'flex';
   } catch (error) {
     iziToast.error({
       position: 'topRight',
